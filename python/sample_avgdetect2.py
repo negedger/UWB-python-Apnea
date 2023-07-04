@@ -5,7 +5,7 @@ from scipy.signal import savgol_filter, find_peaks
 samples = []
 time_interval = 0.1  # Assuming a time interval of 0.1 seconds between samples
 
-with open("samples.txt", "r") as file:
+with open("samplex.txt", "r") as file:
     for line in file:
         sample = line.strip().split(',')  # Adjust the delimiter if needed
         samples.append(float(sample[0]))  # Assuming the first value is the y-coordinate
@@ -52,8 +52,36 @@ for k in range(len(groups2) - 1):
         # print("peak_differnce groups are : " + str(k))
         peak_diff_groups.append(k)
 
-print("Breathing rate : " + str(len(groups2)))
-print("absence of breathing : " + str(len(peak_diff_groups)))
+hypopnea_group = []
+for k in range(len(groups2) - 1):
+    peak_d = groups2[k + 1][2][0] - groups2[k][2][0]
+    peak_diff.append(peak_d)
+    if peak_diff[k] < 25:
+        # print("peak_differnce groups are : " + str(k))
+        hypopnea_group.append(k)
+
+no_of_seconds = len(samples) / 10
+no_of_minutes = no_of_seconds /60
+breath_rate_seconds = (len(groups2)) / no_of_minutes
+no_of_apnea = len(peak_diff_groups)
+no_of_hypopnea = len(hypopnea_group)
+no_of_hours = no_of_minutes / 60
+AHI_index = (no_of_apnea + no_of_hypopnea ) / no_of_hours
+
+print("no_of_minutes data sampled : " + str(no_of_minutes)+ " minutes")
+print("Breathing rate : " + str(int(breath_rate_seconds)) + " breaths per minute")
+print("no of apnea episodes : " + str(no_of_apnea))
+print("no of hypopnea episodes : " + str(no_of_hypopnea))
+print("no_of_minutes : " + str(no_of_minutes))
+print("no_of_hours : " + str(no_of_hours))
+
+print("AHI index : " + str(AHI_index))
+
+
+for j in groups:
+    # print("j" + str(j [0]))
+    if (j[2] - j[0]) > 7:
+        groups2.append(j)
 
 # Create separate subplots for each plot
 fig, axs = plt.subplots(3, 1, figsize=(10, 20))

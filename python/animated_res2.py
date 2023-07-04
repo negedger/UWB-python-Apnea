@@ -7,7 +7,7 @@ fig, (ax1, ax2) = plt.subplots(2, 1, sharex=True)
 samples = []
 
 def animate(i):
-    with open("samples.txt", "r") as file:
+    with open("samplex.txt", "r") as file:
         for line in file:
             sample = line.strip().split(',')  # Adjust the delimiter if needed
             samples.append(float(sample[0]))  # Assuming the first value is the y-coordinate
