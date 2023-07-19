@@ -63,7 +63,7 @@ def animate(i):
 fig, ax = plt.subplots()
 
 # Create a instance of the slmx4 health wrapper
-#slmx4 = slmx4_health('/dev/ttyACM0') # Linux
+# slmx4 = slmx4_health('/dev/ttyACM0') # Linux
 slmx4 = slmx4_health('COM4') # Windows
 
 # Open the USB VCOM connection
